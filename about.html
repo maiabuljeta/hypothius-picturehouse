@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypothius Picturehouse - About</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flexsearch@0.7.31/dist/flexsearch.bundle.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --bg-darker: #111111;
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
+            --accent: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background-color: var(--bg-darker);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            white-space: nowrap
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 100;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+            white-space: nowrap
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'DM Sans';
+            font-weight: 100;
+            text-transform: uppercase;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--bg-darker);
+            min-width: 200px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .dropdown-item {
+            position: relative;
+            size: 0.3rem;
+            font-size: 0.85rem !important;
+            padding: 0.01rem;
+            display: flex;
+        }
+
+        .dropdown-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'DM Sans';
+            font-weight: 100;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 0.75rem 1rem;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-link:hover {
+    background-color: var(--accent);
+    color: var(--text-light);
+}
+
+        .sub-dropdown {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            display: none;
+            font-family: 'DM Sans';
+            font-weight: 300;
+            min-width: 200px;
+            background-color: var(--bg-darker);
+        }
+
+        .nav-item:hover>.dropdown,
+        .dropdown-item:hover>.sub-dropdown {
+            display: block;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .page-content {
+            padding-top: 80px;
+            min-height: calc(100vh - 340px);
+        }
+
+        .about-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .about-description {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .about-item {
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .about-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-role {
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: var(--bg-darker);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-link {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-darker);
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .dropdown,
+            .sub-dropdown {
+                position: static;
+                width: 100%;
+                display: none;
+                background-color: #222;
+            }
+
+            .dropdown-item {
+                padding-left: 2rem;
+            }
+
+            .sub-dropdown .dropdown-item {
+                padding-left: 4rem;
+            }
+
+            .about-title {
+                font-size: 2rem;
+            }
+
+            .about-description {
+                font-size: 1rem;
+            }
+
+            .about-item {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-item {
+                max-width: 100%;
+            }
+        }
+
+        .no-style-link {
+  color: white; /* Set your desired color */
+  text-decoration: none; /* Remove underline */
+}
+
+        /* Search functionality styles */
+        .search-item {
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            color: var(--accent);
+        }
+
+        .search-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-darker);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1002;
+            padding: 0 1rem;
+        }
+
+        .search-container.active {
+            display: flex;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .search-input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--text-gray);
+            color: var(--text-light);
+            font-family: 'DM Sans';
+            font-weight: 100;
+            font-size: 1rem;
+            padding: 0.5rem;
+            width: 100%;
+            margin-right: 1rem;
+            outline: none;
+        }
+
+        .search-submit {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .search-submit:hover {
+            color: var(--accent);
+        }
+
+        .search-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .search-close:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                top: 0;
+                height: 100%;
+                padding: 0 1rem;
+            }
+        }
+
+        .nav-menu .nav-item:first-child { /* Selects the first nav item */
+    margin-left: 2rem; /* Add this line */
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+                <a href="index.html" class="no-style-link"><h1>HYPOTHIUS PICTUREHOUSE</h1></a>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+                
+            </button>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="films.html" class="nav-link">Films</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="his.html" class="dropdown-link">His (2026)</a></li>
+                        <li class="dropdown-item"><a href="paradise-cost.html" class="dropdown-link">Paradise Cost (2026)</a></li>
+                        <li class="dropdown-item"><a href="designxhealth.html" class="dropdown-link">DesignxHealth (2025)</a></li>
+                        <li class="dropdown-item"><a href="womanhood.html" class="dropdown-link">Womanhood (2025)</a></li>
+                        <li class="dropdown-item"><a href="the-walmart-near-me.html" class="dropdown-link">The Walmart Near Me (2024)</a></li>
+                        <li class="dropdown-item"><a href="plague.html" class="dropdown-link">Plague (2023)</a></li>
+                        <li class="dropdown-item"><a href="d.a.n.g.html" class="dropdown-link">D.A.N.G (2022)</a></li>
+                        <li class="dropdown-item"><a href="seven-ships.html" class="dropdown-link">Seven Ships (2022)</a></li>
+                        <li class="dropdown-item"><a href="dreamcentered.html" class="dropdown-link">Dreamcentered (2022)</a></li>
+                        <li class="dropdown-item"><a href="mail.html" class="dropdown-link">Mail (2019)</a></li>
+                        <li class="dropdown-item"><a href="sedimentary.html" class="dropdown-link">Sedimentary: Connection (2019)</a></li>
+                        <li class="dropdown-item"><a href="waking-dream.html" class="dropdown-link">Waking Dream (2019)</a></li>
+                        <li class="dropdown-item"><a href="nowhere.html" class="dropdown-link">Nowhere (2018)</a></li>
+                        <li class="dropdown-item"><a href="tao.html" class="dropdown-link">Tao (2018)</a></li>
+                        <li class="dropdown-item"><a href="cage.html" class="dropdown-link">Cage (2017)</a></li>
+                        <li class="dropdown-item"><a href="solutions.html" class="dropdown-link">Solutions (2015)</a></li>
+                        <li class="dropdown-item"><a href="a-let-of-ham.html" class="dropdown-link">A Let of Ham (2014)</a></li>
+                        <li class="dropdown-item"><a href="captor.html" class="dropdown-link">Captor (2014)</a></li>
+                        <li class="dropdown-item"><a href="the-pond.html" class="dropdown-link">The Pond (2014)</a></li>
+                        <li class="dropdown-item"><a href="the-brain.html" class="dropdown-link">The Right and Left Sides of the Brain (2012)</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="behind-the-scenes.html" class="nav-link">Behind the Scenes</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="worldbuilding.html" class="dropdown-link">Worldbuilding</a></li>
+                        <li class="dropdown-item"><a href="graphic-design.html" class="dropdown-link">Graphic Design</a></li>
+                        <li class="dropdown-item"><a href="animation.html" class="dropdown-link">Animation</a></li>
+                        <li class="dropdown-item"><a href="screenplays.html" class="dropdown-link">Screenplays</a></li>
+                        <li class="dropdown-item"><a href="education.html" class="dropdown-link">Education</a></li>
+                        <li class="dropdown-item"><a href="photography.html" class="dropdown-link">Photography</a></li>
+                        <li class="dropdown-item"><a href="free-downloads.html" class="dropdown-link">Free Downloads</a></li>
+                        <li class="dropdown-item"><a href="innovations.html" class="dropdown-link">Innovations</a></li>
+                        <li class="dropdown-item"><a href="products.html" class="dropdown-link">Products</a></li>
+                        <li class="dropdown-item"><a href="film-essays.html" class="dropdown-link">Film Essays</a></li>
+                        <li class="dropdown-item"><a href="favorite-cameras.html" class="dropdown-link">Favorite Cameras</a></li>
+                        <li class="dropdown-item"><a href="special-fx.html" class="dropdown-link">Special FX</a></li>
+                        <li class="dropdown-item"><a href="scores.html" class="dropdown-link">Scores</a></li>
+                        <li class="dropdown-item"><a href="cinematography.html" class="dropdown-link">Cinematography</a></li>
+                        <li class="dropdown-item"><a href="get-inspired-and-make-a-movie.html" class="dropdown-link">Get Inspired and Make a Movie</a></li>
+                        <li class="dropdown-item"><a href="resume.html" class="dropdown-link">Resume</a></li>
+                        <li class="dropdown-item"><a href="advertising.html" class="dropdown-link">Advertising</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="screenings-and-events.html" class="nav-link">Screenings and Events</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="upcoming-events.html" class="dropdown-link">Upcoming Events</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="contact-us.html" class="nav-link">Contact</a>
+                </li>
+                
+                <li class="search-item">
+                    <button id="search-toggle" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Search container that will take over navbar -->
+            <div id="search-container" class="search-container">
+                <form class="search-form" action="search-results.html" method="get">
+                    <input type="text" name="query" class="search-input" placeholder="Search..." autocomplete="off">
+                    <button type="submit" class="search-submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <button id="search-close" class="search-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <section class="about-section">
+            <h1 class="about-title">About Hypothius Picturehouse</h1>
+            <p class="about-description">
+                Hypothius Picturehouse is an independent film studio dedicated to creating thought-provoking and visually stunning cinematic experiences. 
+                Our mission is to explore the depths of human experience through compelling storytelling and innovative filmmaking techniques.
+            </p>
+            <div class="about-content">
+                <div class="about-item">
+                    <img src="images/headshot.jpg" alt="Founder 1" class="about-image">
+                    <h2 class="about-name">John Doe</h2>
+                    <p class="about-role">Founder & Director</p>
+                    <p>John Doe is the visionary behind Hypothius Picturehouse. With a passion for storytelling and innovation, he has led the studio to create unique cinematic experiences that challenge and inspire audiences.</p>
+                </div>
+                <div class="about-item">
+                    <img src="/api/placeholder/150/150" alt="Founder 2" class="about-image">
+                    <h2 class="about-name">Jane Smith</h2>
+                    <p class="about-role">Producer & Screenwriter</p>
+                    <p>Jane Smith brings her expertise in storytelling and production to Hypothius Picturehouse. She has written and produced numerous award-winning films that push the boundaries of narrative cinema.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <h2 class="footer-logo">HYPOTHIUS PICTUREHOUSE</h2>
+            <div class="footer-links">
+                <a href="films.html" class="footer-link">Films</a>
+                <a href="about.html" class="footer-link">About</a>
+                <a href="behind-the-scenes.html" class="footer-link">Behind the Scenes</a>
+                <a href="screenings-and-events.html" class="footer-link">Screenings</a>
+                <a href="contact-us.html" class="footer-link">Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="social-media.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="social-media.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="social-media.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="social-media.html" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 Hypothius Picturehouse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+        
+        // Search functionality
+        const searchToggle = document.getElementById('search-toggle');
+        const searchContainer = document.getElementById('search-container');
+        const searchClose = document.getElementById('search-close');
+        const navContainer = document.querySelector('.nav-container');
+        
+        // Show search
+        searchToggle.addEventListener('click', function() {
+            searchContainer.classList.add('active');
+            document.querySelector('.search-input').focus();
+        });
+        
+        // Hide search
+        searchClose.addEventListener('click', function() {
+            searchContainer.classList.remove('active');
+        });
+        
+        // Auto-hide search when mouse leaves navbar
+        navContainer.addEventListener('mouseleave', function() {
+            if (searchContainer.classList.contains('active')) {
+                searchContainer.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
