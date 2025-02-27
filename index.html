@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Film Productions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --bg-darker: #111111;
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
+            --accent: #3498db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700; /* Or the weight you chose */
+            font-size: 1.05rem; 
+    /* ... other styles ... */
+        }
+
+        
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--bg-darker);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 100;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'DM Sans';
+            font-weight: 100; /* Or the weight you prefer for nav links */
+            text-transform: uppercase; /* Example: Uppercase the text if desired */
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--bg-darker);
+            min-width: 200px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-item {
+            position: relative;
+        }
+
+        .dropdown-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'DM Sans';
+            font-weight: 100; /* Or the weight you prefer for nav links */
+            text-transform: uppercase; /* Example: Uppercase the text if desired */
+            padding: 0.75rem 1rem;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-link:hover {
+            background-color: var(--accent);
+        }
+
+        .sub-dropdown {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            display: none;
+            font-family: 'DM Sans';
+            font-weight: 300; /* Or the weight you prefer for dropdown items */
+            min-width: 200px;
+            background-color: var(--bg-darker);
+        }
+
+        .nav-item:hover>.dropdown,
+        .dropdown-item:hover>.sub-dropdown {
+            display: block;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Keep for responsiveness */
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* Add this line */
+    gap: 1rem;
+    padding: 2rem;
+}
+        .image-grid img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+        }
+
+        .lightbox-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-darker);
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .dropdown,
+            .sub-dropdown {
+                position: static;
+                width: 100%;
+                display: none;
+                background-color: #222;
+            }
+
+            .dropdown-item {
+                padding-left: 2rem;
+            }
+
+            .sub-dropdown .dropdown-item {
+                padding-left: 4rem;
+            }
+        }
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1920/1080') center/cover;
+        }
+
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+                <h1>HYPOTHIUS PICTUREHOUSE</h1>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                
+                <!-- Films with dropdown -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Films</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">His (2026)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Paradise Cost (2026)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Womanhood (2025)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">The Walmart Near Me (2024)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Plague (2023)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">D.A.N.G (2022)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Seven Ships (2022)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Dreamcentered (2022)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Mail (2019)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Sedimentary: Connection (2019)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Waking Dream (2019)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Nowhere (2018)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Tao (2018)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Cage (2017)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Light the Fire (2016)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Solutions (2015)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">A Let of Ham (2014)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Captor (2014)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">The Pond (2014)</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">The Right and Left Sides of the Brain (2012)</a></li>
+                    </ul>
+                </li>
+                
+                <!-- About -->
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                
+                <!-- Behind the Scenes with dropdown -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Behind the Scenes</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="worldbuilding.html" class="dropdown-link">Worldbuilding</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Graphic Design</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Animation</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Screenplays</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Eduation</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Photography</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Free Downloads</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Innovations</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Products</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Film Essays</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Favorite Cameras</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Special FX</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Scores</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Cinematography</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Get Inspired and Make a Movie</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Resume</a></li>
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Advertising</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Screenings and Events with dropdown -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Screenings and Events</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-item"><a href="#" class="dropdown-link">Upcoming Screenings</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Contacts -->
+                <li class="nav-item">
+                    <a href="contacts.html" class="nav-link">Contacts</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Crafting Visual Stories</h2>
+                <p class="hero-subtitle">Award-winning film production company delivering cinematic excellence</p>
+                <a href="#" class="cta-button">View Our Work</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Add smooth scrolling for better performance
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Optimize dropdown animations
+        const dropdowns = document.querySelectorAll('.dropdown, .sub-dropdown');
+        dropdowns.forEach(dropdown => {
+            dropdown.style.transition = 'opacity 0.3s ease';
+        });
+    </script>
+</body>
+</html>
