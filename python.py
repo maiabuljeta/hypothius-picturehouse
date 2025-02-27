@@ -8,9 +8,9 @@ from urllib.parse import urljoin
 app = Flask(__name__)
 
 # Configuration
-GITHUB_USERNAME = "your-github-username"  # Replace with your actual GitHub username
-REPOSITORY_NAME = "your-repo-name"  # Replace with your GitHub Pages repository name
-BASE_URL = f"https://{GITHUB_USERNAME}.github.io/{REPOSITORY_NAME}/"  # Base URL of your GitHub Pages site
+GITHUB_USERNAME = "maiabuljeta"  # Replace with your actual GitHub username
+REPOSITORY_NAME = "hypothius-picturehouse"  # Replace with your GitHub Pages repository name
+BASE_URL = f"http://maiabuljeta.github.io/hypothius-picturehouse/"  # Base URL of your GitHub Pages site
 PAGES_TO_CRAWL = []  # This will be populated by the crawler
 
 def crawl_site():
